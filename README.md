@@ -19,7 +19,6 @@ Este é um projeto de **sistema bancário básico** desenvolvido em **Java puro 
 - **Java 17+**
 - **JDBC (Java Database Connectivity)**
 - **MySQL**
-- **Maven ou Spring Boot (opcional)**
 
 ## 🛠️ Requisitos para rodar
 
@@ -60,10 +59,10 @@ return DriverManager.getConnection(
 ```
 
 ## ▶️ Como rodar
-
-1. Compile o projeto
-2. Execute `Banco.java` ou `ProjetoBancoApplication.java` (caso esteja usando Spring Boot)
-3. Siga as instruções no terminal
+1. dê o comando git clone no seu terminal com url: https://github.com/kdunog/Projeto-Sistema_Bancario.git
+2. Compile o projeto
+3. Execute `Banco.java`
+4. Siga as instruções no terminal
 
 ## 📌 Observações
 
