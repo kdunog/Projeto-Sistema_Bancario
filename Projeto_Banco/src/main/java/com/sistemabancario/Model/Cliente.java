@@ -1,5 +1,6 @@
 package com.sistemabancario.Model;
 
+@Entity
 public class Cliente {
 
 		private String nome;
