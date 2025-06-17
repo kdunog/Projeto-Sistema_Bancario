@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping
 public class LoginController {
 
-    @GetMapping("/home")
+    @GetMapping("/homesite")
     public String iniciosite(){
-        return "/home";
+        return "home";
     }
     @GetMapping("/cadastrocliente")
     public String cadastro(){
-        return "/cadastro";
+        return "cadastro";
     }
 
 }
