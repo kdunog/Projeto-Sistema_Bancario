@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Banco Real Brasileiro - Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <style>
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0d1a26 0%, #002d62 100%);
+      color: #e3eaf2;
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: 64px 1fr 48px;
+      grid-template-columns: 280px 1fr;
+      grid-template-areas:
+        "header header"
+        "sidebar main"
+        "footer footer";
+    }
+
+    header {
+      grid-area: header;
+      position: sticky;
+      top: 0;
+      background: rgba(0, 45, 98, 0.85);
+      backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid rgba(255 255 255 / 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      user-select: none;
+      z-index: 50;
+    }
+    .brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #ffffff;
+      letter-spacing: 2px;
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #cbd5e1;
+      font-weight: 600;
+    }
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #3b82f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: white;
+      user-select: none;
+    }
+
+    aside.sidebar {
+      grid-area: sidebar;
+      background: rgba(0, 45, 98, 0.9);
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      color: #cbd5e1;
+      font-weight: 600;
+      font-size: 1rem;
+      user-select: none;
+    }
+    aside.sidebar a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #cbd5e1;
+      text-decoration: none;
+      padding: 10px 12px;
+      border-radius: 12px;
+      transition: background-color 0.25s ease;
+      cursor: pointer;
+    }
+    aside.sidebar a:hover,
+    aside.sidebar a:focus {
+      background-color: #0764b0;
+      outline: none;
+    }
+    aside.sidebar a .material-icons {
+      font-size: 24px;
+    }
+
+    main {
+      grid-area: main;
+      padding: 32px 40px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      max-width: 100%;
+    }
+
+    .section {
+      background: rgba(30 30 30 / 0.7);
+      border-radius: 16px;
+      padding: 24px 32px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+      color: #e3eaf2;
+    }
+    .section h2 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 1.75rem;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #06b6d4, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .placeholder {
+      background: rgba(0, 45, 98, 0.4);
+      border-radius: 12px;
+      height: 120px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #a5b9d1;
+      font-size: 1.1rem;
+      text-align: center;
+      user-select: none;
+    }
+
+    footer {
+      grid-area: footer;
+      height: 48px;
+      background: rgba(0, 45, 98, 0.85);
+      backdrop-filter: saturate(180%) blur(10px);
+      border-top: 1px solid rgba(255 255 255 / 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      color: #cbd5e1;
+      user-select: none;
+    }
+
+    main::-webkit-scrollbar {
+      width: 10px;
+    }
+    main::-webkit-scrollbar-track {
+      background: #121212;
+    }
+    main::-webkit-scrollbar-thumb {
+      background: #06b6d4;
+      border-radius: 10px;
+    }
+    main::-webkit-scrollbar-thumb:hover {
+      background: #3b82f6;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand" aria-label="Banco Real Brasileiro">Banco Real Brasileiro</div>
+    <div class="user-info" aria-label="Informações do usuário logado">
+      <div class="user-avatar" aria-hidden="true">A</div>
+      <span>Antonio Souza</span>
+    </div>
+  </header>
+
+  <aside class="sidebar" role="navigation" aria-label="Menu lateral">
+    <a href="#" tabindex="0"><span class="material-icons" aria-hidden="true">home</span> Dashboard</a>
+    <a href="#" tabindex="0"><span class="material-icons" aria-hidden="true">account_balance_wallet</span> Contas</a>
+    <a href="#" tabindex="0"><span class="material-icons" aria-hidden="true">payment</span> Pagamentos</a>
+    <a href="#" tabindex="0"><span class="material-icons" aria-hidden="true">receipt_long</span> Extratos</a>
+    <a href="#" tabindex="0"><span class="material-icons" aria-hidden="true">settings</span> Configurações</a>
+  </aside>
+
+  <main>
+    <section class="section" aria-labelledby="section-contas">
+      <h2 id="section-contas">Saldo e Contas</h2>
+      <div class="placeholder">Área para visualização do saldo e contas do usuário.</div>
+    </section>
+
+    <section class="section" aria-labelledby="section-pagamentos">
+      <h2 id="section-pagamentos">Pagamentos e Transferências</h2>
+      <div class="placeholder">Área para realizar pagamentos e transferências.</div>
+    </section>
+
+    <section class="section" aria-labelledby="section-extratos">
+      <h2 id="section-extratos">Extratos Recentes</h2>
+      <div class="placeholder">Visualização dos últimos extratos e movimentações.</div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2024 Banco Real Brasileiro. Todos os direitos reservados.
+  </footer>
+</body>
+</html>
