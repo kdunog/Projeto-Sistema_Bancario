@@ -77,7 +77,7 @@
 </style>
 </head>
 <body>
-<form th:action="@{/cadastro}" method="post" novalidate>
+<form th:action="@{/cadastrocliente}" method="post" novalidate>
   <h1>Cadastro</h1>
 
   <label for="nome">Nome completo</label>
@@ -92,7 +92,7 @@
   <button type="submit">Cadastrar</button>
 
   <div th:if="${error}" class="error-message" th:text="${error}"></div>
-  <div th:if="${success}" style="color:#60a5fa; font-size:0.9rem; text-align:center;" th:text="${success}"></div>
+  <div th:if="${successo}" style="color:#60a5fa; font-size:0.9rem; text-align:center;" th:text="${successo}"></div>
 </form>
 </body>
 </html>
