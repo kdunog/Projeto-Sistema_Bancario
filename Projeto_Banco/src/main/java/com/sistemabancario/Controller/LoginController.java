@@ -19,40 +19,55 @@ public class LoginController {
     @Autowired
     private ClienteRepository cRepository;
 
-    @GetMapping("/logincliente")
-    public String login(){
-        return "login";
-    }
-
-    @GetMapping("/homesite")
+    @GetMapping("/")
     public String iniciosite(){
         return "home";
     }
+
     @GetMapping("/cadastrocliente")
     public String cadastro(){
         return "cadastro";
     }
 
+    @GetMapping("/logincliente")
+    public String login(){
+        return "login";
+    } 
+
+    //mapear dashboard
+    @GetMapping("/dashboard")
+    public String dashboard(){
+        return "dashboard";
+    }
+
+
     @PostMapping("/cadastrocliente")
     public String cadastrarCliente(Cliente cliente, Model model){
-        if(cRepository.findByCPF(cliente.getCPF()) != null){
+
+        if(cliente.getCpf() == null || cliente.getCpf().isEmpty()){
+            model.addAttribute("erro", "O Cpf nao pode ser vazio");
+            return "cadastro";
+        }
+
+        if(cRepository.findByCpf(cliente.getCpf()) != null){
             model.addAttribute("error", "CPF ja cadastrado");
         }
         else{
 
             cRepository.save(cliente);
             model.addAttribute("sucesso", "Você foi cadastrado com sucesso!");
+            return "login";
         }
-        // ESTA CADASTRANDO MAS N INDO PRO LOGIN
-        // NA VERDADE AQUI PRECISA RETORNAR PARA O LOGIN, CASO FOI CADASTRADO VAI CAIR NA PAGINA DE LOGIN, PRECISA SER REDIRECIONADO PARA LA
+
+        // AQUI PRECISA RETORNAR PARA O LOGIN, CASO FOI CADASTRADO VAI CAIR NA PAGINA DE LOGIN, PRECISA SER REDIRECIONADO PARA LA
         return "cadastro";
     }
 
     // APOS O CLIQUE NO LOGIN DEVE DIRECIONAR PRO DASHBOARD OQ N TA ACONTECENDO NECESSARIO CORREÇÃO
-    @PostMapping("/login")
+    @PostMapping("/logincliente")
     public String logarCliente(Cliente cliente, Model model, HttpSession session){
-        Cliente c = cRepository.findByCPF(cliente.getCPF());
-        if(c != null && cliente.getSenha().equals(c.getSenha())){
+        Cliente c = cRepository.findByCpf(cliente.getCpf());
+        if(c != null && cliente.getSenha() != null &&  cliente.getSenha().equals(c.getSenha())){
             session.setAttribute("Cliente logado", c);
             return "redirect:/dashboard";
         }

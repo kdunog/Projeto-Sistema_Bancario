@@ -15,7 +15,7 @@ public class Cliente {
     private Long id;
 
     private String nome;
-    private String CPF;
+    private String cpf;
     private String email;
     private String senha;
     private double saldo;
@@ -25,7 +25,7 @@ public class Cliente {
 
     public Cliente(String nome, String cpf, String email, String senha, double saldo) {
         this.nome = nome;
-        this.CPF = CPF;
+        this.cpf = cpf;
         this.email = email;
         this.senha = senha;
         this.saldo = saldo;
@@ -38,11 +38,11 @@ public class Cliente {
         this.nome = nome;
     }
 
-    public String getCPF() {
-        return CPF;
+    public String getCpf() {
+        return cpf;
     }
-    public void setCPF(String CPF) {
-        this.CPF = CPF;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public String getEmail() {

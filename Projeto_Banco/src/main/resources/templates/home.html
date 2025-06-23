@@ -86,13 +86,13 @@
 
 <body>
     <header>
-        Banco Real Brasileiro <a th:href="@{/login}" class="login-link" aria-label="Login">Login</a>
+        Banco Real Brasileiro <a th:href="@{/logincliente}" class="login-link" aria-label="Login">Login</a>
     </header>
     <main>
-        <h1>Bem-vindo, <span th:text="${user.nome}">Usuário</span>!</h1>
+        <h1>Bem-vindo</h1>
         <h1>Abra sua conta no BRB.</h1>
         <p>Criar sua conta é fácil e rápido. Comece a gerenciar suas finanças com segurança e eficiência.</p>
-        <a th:href="@{/cadastro}" class="logout-link" aria-label="Cadastrar">Cadastrar</a>
+        <a th:href="@{/cadastrocliente}" class="logout-link" aria-label="Cadastrar">Cadastrar</a>
     </main>
 </body>
 
