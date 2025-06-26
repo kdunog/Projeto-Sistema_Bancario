@@ -170,6 +170,56 @@
       font-size: 0.9rem;
     }
 
+    .transfer-form {
+      margin-top: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #cbd5e1;
+    }
+
+    input[type="number"],
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+      color: white;
+      font-size: 1rem;
+    }
+    
+    input:focus {
+      outline: 2px solid #3b82f6;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .action-button {
+      width: 100%;
+      padding: 16px;
+      background: #06b6d4;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .action-button:hover {
+      background-color: #3b82f6;
+    }
+
     footer {
       grid-area: footer;
       height: 48px;
@@ -202,14 +252,12 @@
 <body>
   <header>
     <div class="brand" aria-label="Banco Real Brasileiro">Banco Real Brasileiro</div>
-    <div class="user-info" aria-label="Informações do usuário logado">
-      <div class="user-avatar" aria-hidden="true">J</div> <!-- Exemplo de inicial do usuário -->
-      <span id="userName">João</span> <!-- Nome do usuário -->
+    <div class="user-info" aria-label="Informações do usuário logado"> 
     </div>
   </header>
 
   <aside class="sidebar" role="navigation" aria-label="Menu lateral">
-    <a href="#" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">home</span> Dashboard</a>
+    <a href="/dashboard" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">home</span> Dashboard</a>
     <a href="/transferencia" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">payment</span> Transferências</a>
     <a href="#" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">account_balance_wallet</span> Contas</a>
     <a href="#" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">receipt_long</span> Extratos</a>
@@ -217,25 +265,62 @@
   </aside>
 
   <main>
+    <section class="section" aria-labelledby="section-deposito">
+      <h2 id="section-deposito">Depósito</h2>
+      <form class="transfer-form" action="/processar-deposito" method="POST">
+        <div class="form-group">
+          <label for="valor">Valor (R$)</label>
+          <input type="number" id="valor" name="valor" placeholder="0,00" step="0.01" min="0.01" required>
+        </div>
+        <div class="form-group">
+          <label for="cpf">CPF da Conta</label>
+          <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00">
+        </div>
+        <button type="submit" class="action-button">
+          <span class="material-icons">attach_money</span>
+          Confirmar Depósito
+        </button>
+      </form>
+    </section>
+
+    <section class="section" aria-labelledby="section-saque">
+      <h2 id="section-saque">Saque</h2>
+      <form class="transfer-form" action="/processar-saque" method="POST">
+        <div class="form-group">
+          <label for="valor-saque">Valor</label>
+          <input type="number" id="valor-saque" name="valor" placeholder="R$ 0,00" step="0.01" min="0.01" required>
+        </div>
+        <div class="form-group">
+          <label for="cpf-saque">CPF da Conta</label>
+          <input type="text" id="cpf-saque" name="cpf" placeholder="000.000.000-00" >
+        </div>
+        <button type="submit" class="action-button">
+          <span class="material-icons">payments</span>
+          Confirmar Saque
+        </button>
+      </form>
+    </section>
+
     <section class="section" aria-labelledby="section-transferencia">
-      <h2 id="section-transferencia">Transferências</h2>
-      <div class="transfer-options">
-        <div class="transfer-card" onclick="location.href='/deposito'">
-          <span class="material-icons">call_received</span>
-          <h3>Depósito</h3>
-          <p>Realize depósitos em sua conta</p>
+      <h2 id="section-transferencia">Transferência entre Contas</h2>
+      <form class="transfer-form" action="/processar-transferencia" method="POST">
+        <div class="form-group">
+          <label for="valor-transferencia">Valor (R$)</label>
+          <input type="number" id="valor-transferencia" name="valor" placeholder="0,00" step="0.01" min="0.01" required>
         </div>
-        <div class="transfer-card" onclick="location.href='/saque'">
-          <span class="material-icons">call_made</span>
-          <h3>Saque</h3>
-          <p>Realize saques da sua conta</p>
+        <div class="form-group">
+          <label for="cpf-origem">CPF de Origem</label>
+          <input type="text" id="cpf-origem" name="cpf_origem" placeholder="000.000.000-00" >
         </div>
-        <div class="transfer-card" onclick="location.href='/transferencia-conta'">
+        <div class="form-group">
+          <label for="cpf-destino">CPF Destino</label>
+          <input type="text" id="cpf-destino" name="cpf_destino" placeholder="000.000.000-00" >
+        </div>
+        <button type="submit" class="action-button">
           <span class="material-icons">compare_arrows</span>
-          <h3>Transferência entre contas</h3>
-          <p>Transfira para outras contas bancárias</p>
-        </div>
-      </div>
+          Confirmar Transferência
+        </button>
+      </form>
     </section>
   </main>
 
