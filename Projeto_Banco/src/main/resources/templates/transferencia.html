@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Banco Real Brasileiro - Home</title>
+  <title>Transferência - Banco Real Brasileiro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <style>
@@ -131,17 +131,43 @@
       -webkit-text-fill-color: transparent;
     }
 
-    .placeholder {
-      background: rgba(0, 45, 98, 0.4);
-      border-radius: 12px;
-      height: 120px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #a5b9d1;
-      font-size: 1.1rem;
+    .transfer-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 20px;
+    }
+    
+    .transfer-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      cursor: pointer;
+      transition: all 0.3s ease;
       text-align: center;
-      user-select: none;
+    }
+    
+    .transfer-card:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    
+    .transfer-card .material-icons {
+      font-size: 48px;
+      margin-bottom: 16px;
+      color: #3b82f6;
+    }
+    
+    .transfer-card h3 {
+      margin: 0 0 8px;
+      color: white;
+    }
+    
+    .transfer-card p {
+      margin: 0;
+      color: #cbd5e1;
+      font-size: 0.9rem;
     }
 
     footer {
@@ -177,36 +203,44 @@
   <header>
     <div class="brand" aria-label="Banco Real Brasileiro">Banco Real Brasileiro</div>
     <div class="user-info" aria-label="Informações do usuário logado">
+      <div class="user-avatar" aria-hidden="true">J</div> <!-- Exemplo de inicial do usuário -->
+      <span id="userName">João</span> <!-- Nome do usuário -->
     </div>
   </header>
 
   <aside class="sidebar" role="navigation" aria-label="Menu lateral">
     <a href="#" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">home</span> Dashboard</a>
+    <a href="/transferencia" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">payment</span> Transferências</a>
     <a href="#" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">account_balance_wallet</span> Contas</a>
-    <a href="#" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">payment</span> Pagamentos</a>
     <a href="#" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">receipt_long</span> Extratos</a>
     <a href="#" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">settings</span> Configurações</a>
   </aside>
 
   <main>
-    <section class="section" aria-labelledby="section-contas">
-      <h2 id="section-contas">Saldo e Contas</h2>
-      <div class="placeholder">Área para visualização do saldo e contas do usuário.</div>
-    </section>
-
-    <section class="section" aria-labelledby="section-pagamentos">
-      <h2 id="section-pagamentos">Pagamentos e Transferências</h2>
-      <div class="placeholder">Área para realizar pagamentos e transferências.</div>
-    </section>
-
-    <section class="section" aria-labelledby="section-extratos">
-      <h2 id="section-extratos">Extratos Recentes</h2>
-      <div class="placeholder">Visualização dos últimos extratos e movimentações.</div>
+    <section class="section" aria-labelledby="section-transferencia">
+      <h2 id="section-transferencia">Transferências</h2>
+      <div class="transfer-options">
+        <div class="transfer-card" onclick="location.href='/deposito'">
+          <span class="material-icons">call_received</span>
+          <h3>Depósito</h3>
+          <p>Realize depósitos em sua conta</p>
+        </div>
+        <div class="transfer-card" onclick="location.href='/saque'">
+          <span class="material-icons">call_made</span>
+          <h3>Saque</h3>
+          <p>Realize saques da sua conta</p>
+        </div>
+        <div class="transfer-card" onclick="location.href='/transferencia-conta'">
+          <span class="material-icons">compare_arrows</span>
+          <h3>Transferência entre contas</h3>
+          <p>Transfira para outras contas bancárias</p>
+        </div>
+      </div>
     </section>
   </main>
 
   <footer>
-    &copy; 2025 Banco Real Brasileiro. Todos os direitos reservados.
+    &copy; 2024 Banco Real Brasileiro. Todos os direitos reservados.
   </footer>
 </body>
 </html>
