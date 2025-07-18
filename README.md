@@ -1,4 +1,3 @@
-#Att: implementando SpringBoot no projeto na branch new-BD
 # 💳 Projeto Banco em Java
 
 Este é um projeto de **sistema bancário básico** desenvolvido em **Java puro com JDBC e MySQL**, permitindo cadastro de clientes, login, depósito, saque e exibição de saldo.
