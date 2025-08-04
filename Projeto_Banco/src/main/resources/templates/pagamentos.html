@@ -258,7 +258,7 @@
 
   <aside class="sidebar" role="navigation" aria-label="Menu lateral">
     <a href="/dashboard" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">home</span> Dashboard</a>
-    <a href="/transferencia" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">payment</span> Transferências</a>
+    <a href="/pagamentos" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">payment</span> Transferências</a>
     <a href="#" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">account_balance_wallet</span> Contas</a>
     <a href="#" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">receipt_long</span> Extratos</a>
     <a href="#" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">settings</span> Configurações</a>
@@ -267,7 +267,7 @@
   <main>
     <section class="section" aria-labelledby="section-deposito">
       <h2 id="section-deposito">Depósito</h2>
-      <form class="transfer-form" action="/processar-deposito" method="POST">
+      <form class="transfer-form" action="@{/depositocliente}" method="POST">
         <div class="form-group">
           <label for="valor">Valor (R$)</label>
           <input type="number" id="valor" name="valor" placeholder="0,00" step="0.01" min="0.01" required>
@@ -285,7 +285,7 @@
 
     <section class="section" aria-labelledby="section-saque">
       <h2 id="section-saque">Saque</h2>
-      <form class="transfer-form" action="/processar-saque" method="POST">
+      <form class="transfer-form" action="@{/saquecliente}" method="POST">
         <div class="form-group">
           <label for="valor-saque">Valor</label>
           <input type="number" id="valor-saque" name="valor" placeholder="R$ 0,00" step="0.01" min="0.01" required>
@@ -303,7 +303,7 @@
 
     <section class="section" aria-labelledby="section-transferencia">
       <h2 id="section-transferencia">Transferência entre Contas</h2>
-      <form class="transfer-form" action="/processar-transferencia" method="POST">
+      <form class="transfer-form" action="@{/transferenciaContas}" method="POST">
         <div class="form-group">
           <label for="valor-transferencia">Valor (R$)</label>
           <input type="number" id="valor-transferencia" name="valor" placeholder="0,00" step="0.01" min="0.01" required>
@@ -325,7 +325,7 @@
   </main>
 
   <footer>
-    &copy; 2024 Banco Real Brasileiro. Todos os direitos reservados.
+    &copy; 2025 Banco Real Brasileiro. Todos os direitos reservados.
   </footer>
 </body>
 </html>
