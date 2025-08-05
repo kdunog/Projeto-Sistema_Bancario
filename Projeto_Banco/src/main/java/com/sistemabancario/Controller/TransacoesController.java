@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sistemabancario.Model.Cliente;
+import com.sistemabancario.Model.TransferenciaDTO;
 import com.sistemabancario.Repository.ClienteRepository;
 
 
@@ -52,24 +54,25 @@ public class TransacoesController {
     }
 
     @PostMapping("/transferenciaContas")
-    public String transferenciaContas(Cliente clienteOrigem, Cliente clienteDestino) {
-        Cliente origem = cRepository.findByCpf(clienteOrigem.getCpf());
-        Cliente destino = cRepository.findByCpf(clienteDestino.getCpf());
+public String transferenciaContas(@ModelAttribute TransferenciaDTO dto) {
+    Cliente origem = cRepository.findByCpf(dto.getCpfOrigem());
+    Cliente destino = cRepository.findByCpf(dto.getCpfDestino());
 
-        if (origem != null && destino != null) {
-            if (origem.getSaldo() >= clienteOrigem.getSaldo()) { // Corrigido
-                origem.setSaldo(origem.getSaldo() - clienteOrigem.getSaldo()); // reduz da conta origem
-                destino.setSaldo(destino.getSaldo() + clienteDestino.getSaldo()); // adiciona na conta destino
-                cRepository.save(origem); // Corrigido para salvar a conta de origem
-                cRepository.save(destino); // Corrigido para salvar a conta de destino
-                return "redirect:/pagamentos";
-            } else {
-                return "redirect:/dashboard";
-            }
+    if (origem != null && destino != null) {
+        if (origem.getSaldo() >= dto.getValor()) {
+            origem.setSaldo(origem.getSaldo() - dto.getValor());
+            destino.setSaldo(destino.getSaldo() + dto.getValor());
+
+            cRepository.save(origem);
+            cRepository.save(destino);
+
+            return "redirect:/pagamentos";
+        } else {
+            return "redirect:/dashboard";
         }
-        return "redirect:/dashboard";
     }
-
+    return "redirect:/dashboard";
+}
     @PostMapping("/pagamentos") 
     public String pagamentos(Cliente cliente, Model model) {
         model.addAttribute("cliente", cliente); // Adicionado para passar o cliente ao modelo

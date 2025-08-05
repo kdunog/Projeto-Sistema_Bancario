@@ -79,6 +79,17 @@
     font-size: 0.9rem;
     text-align: center;
   }
+  .register-button {
+    background: transparent;
+    border: none;
+    color: #06b6d4;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1rem;
+    text-decoration: underline; /* Adiciona sublinhado */
+    text-align: center;
+    margin-top: 10px; /* Espaço acima do botão */
+  }
 </style>
 </head>
 <body>
@@ -100,7 +111,8 @@
     <div th:if="${param.logout}" class="logout-message">
         Você saiu com sucesso.
     </div>
+
+    <a href="/cadastrocliente" class="register-button" aria-label="Cadastrar">Não tem uma conta? Cadastre-se aqui.</a>
 </form>
 </body>
 </html>
-
