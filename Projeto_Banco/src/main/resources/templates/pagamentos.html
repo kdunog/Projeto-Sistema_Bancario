@@ -259,9 +259,6 @@
   <aside class="sidebar" role="navigation" aria-label="Menu lateral">
     <a href="/dashboard" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">home</span> Dashboard</a>
     <a href="/pagamentos" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">payment</span> Transferências</a>
-    <a href="#" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">account_balance_wallet</span> Contas</a>
-    <a href="#" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">receipt_long</span> Extratos</a>
-    <a href="#" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">settings</span> Configurações</a>
   </aside>
 
   <main>
@@ -270,7 +267,7 @@
       <form class="transfer-form" action="@{/depositocliente}" method="POST">
         <div class="form-group">
           <label for="valor">Valor (R$)</label>
-          <input type="number" id="valor" name="valor" placeholder="0,00" step="0.01" min="0.01" required>
+          <input type="number" id="valor" name="saldo" placeholder="0,00" step="0.01" min="0.01" required>
         </div>
         <div class="form-group">
           <label for="cpf">CPF da Conta</label>
@@ -288,7 +285,7 @@
       <form class="transfer-form" action="@{/saquecliente}" method="POST">
         <div class="form-group">
           <label for="valor-saque">Valor</label>
-          <input type="number" id="valor-saque" name="valor" placeholder="R$ 0,00" step="0.01" min="0.01" required>
+          <input type="number" id="valor-saque" name="saldo" placeholder="R$ 0,00" step="0.01" min="0.01" required>
         </div>
         <div class="form-group">
           <label for="cpf-saque">CPF da Conta</label>
@@ -306,7 +303,7 @@
       <form class="transfer-form" action="@{/transferenciaContas}" method="POST">
         <div class="form-group">
           <label for="valor-transferencia">Valor (R$)</label>
-          <input type="number" id="valor-transferencia" name="valor" placeholder="0,00" step="0.01" min="0.01" required>
+          <input type="number" id="valor-transferencia" name="saldo" placeholder="0,00" step="0.01" min="0.01" required>
         </div>
         <div class="form-group">
           <label for="cpf-origem">CPF de Origem</label>

@@ -52,6 +52,18 @@
       color: #cbd5e1;
       font-weight: 600;
     }
+    .logout-button {
+      background: transparent;
+      border: none;
+      color: #cbd5e1;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: color 0.25s ease;
+    }
+    .logout-button:hover {
+      color: #ff4d4d; /* Cor ao passar o mouse */
+    }
     .user-avatar {
       width: 36px;
       height: 36px;
@@ -177,29 +189,18 @@
   <header>
     <div class="brand" aria-label="Banco Real Brasileiro">Banco Real Brasileiro</div>
     <div class="user-info" aria-label="Informações do usuário logado">
+      <a href="/login" class="logout-button" aria-label="Sair">Sair</a>
     </div>
   </header>
 
   <aside class="sidebar" role="navigation" aria-label="Menu lateral">
     <a href="/pagamentos" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">payment</span> Pagamentos</a>
-    <a href="#" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">receipt_long</span> Extratos</a>
-    <a href="#" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">settings</span> Configurações</a>
   </aside>
 
   <main>
-    <section class="section" aria-labelledby="section-contas">
-      <h2 id="section-contas">Saldo e Contas</h2>
-      <div class="placeholder">Área para visualização do saldo e contas do usuário.</div>
-    </section>
-
     <section class="section" aria-labelledby="section-pagamentos">
       <h2 id="section-pagamentos">Pagamentos e Transferências</h2>
       <div class="placeholder">Área para realizar pagamentos e transferências.</div>
-    </section>
-
-    <section class="section" aria-labelledby="section-extratos">
-      <h2 id="section-extratos">Extratos Recentes</h2>
-      <div class="placeholder">Visualização dos últimos extratos e movimentações.</div>
     </section>
   </main>
 
