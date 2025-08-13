@@ -1,5 +1,6 @@
 package com.sistemabancario.Controller;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,10 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.sistemabancario.Model.Cliente;
+import com.sistemabancario.Model.Transacoes;
 import com.sistemabancario.Model.TransferenciaDTO;
 import com.sistemabancario.Repository.ClienteRepository;
+import com.sistemabancario.Repository.TransacoesRepository;
 
 @Controller
 @RequestMapping
@@ -18,12 +22,19 @@ public class TransacoesController {
 
     @Autowired
     private ClienteRepository cRepository;
+    @Autowired
+    private TransacoesRepository transacoesRepository;
 
-    @GetMapping("/pagamentos")
-    public String deposito(Model model) {
-        model.addAttribute("transferenciaDTO", new TransferenciaDTO());
-        return "pagamentos";
+   @GetMapping("/pagamentos")
+public String deposito(Model model, @SessionAttribute(value = "cpf", required = false) String cpf) {
+    if (cpf == null) {
+        return "redirect:/logincliente";
     }
+    model.addAttribute("transferenciaDTO", new TransferenciaDTO());
+    List<Transacoes> historico = transacoesRepository.findByCpfOrigem(cpf);
+    model.addAttribute("historicoTransacoes", historico);
+    return "pagamentos";
+}
 
 
 @PostMapping("/depositocliente")
@@ -32,6 +43,13 @@ public String depositocliente(Cliente cliente, RedirectAttributes redirectAttrs)
     if (clienteEncontrado != null) {
         clienteEncontrado.setSaldo(clienteEncontrado.getSaldo() + cliente.getSaldo());
         cRepository.save(clienteEncontrado);
+
+        // Salva transação
+        Transacoes transacao = new Transacoes();
+        transacao.setCpfOrigem(cliente.getCpf());
+        transacao.setTipo_transacao("Depósito");
+        transacao.setValor(cliente.getSaldo());
+        transacoesRepository.save(transacao);
 
         redirectAttrs.addFlashAttribute("successMessage", "Depósito realizado com sucesso!");
         return "redirect:/pagamentos";
@@ -47,6 +65,13 @@ public String saquecliente(Cliente cliente, RedirectAttributes redirectAttrs) {
         if (clienteEncontrado.getSaldo() >= cliente.getSaldo()) {
             clienteEncontrado.setSaldo(clienteEncontrado.getSaldo() - cliente.getSaldo());
             cRepository.save(clienteEncontrado);
+
+            // Salva transação
+            Transacoes transacao = new Transacoes();
+            transacao.setCpfOrigem(cliente.getCpf());
+            transacao.setTipo_transacao("Saque");
+            transacao.setValor(cliente.getSaldo());
+            transacoesRepository.save(transacao);
 
             redirectAttrs.addFlashAttribute("successMessage", "Saque realizado com sucesso!");
             return "redirect:/pagamentos";
@@ -71,6 +96,13 @@ public String transferenciaContas(@ModelAttribute TransferenciaDTO dto, Redirect
 
             cRepository.save(origem);
             cRepository.save(destino);
+
+            // Salva transação
+            Transacoes transacao = new Transacoes();
+            transacao.setCpfOrigem(dto.getCpfOrigem());
+            transacao.setTipo_transacao("Transferência");
+            transacao.setValor(dto.getValor());
+            transacoesRepository.save(transacao);
 
             redirectAttrs.addFlashAttribute("successMessage", "Transferência realizada com sucesso!");
             return "redirect:/pagamentos";

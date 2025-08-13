@@ -197,12 +197,25 @@
     <a href="/pagamentos" role="button" tabindex="0" class="sidebar-link"><span class="material-icons" aria-hidden="true">payment</span> Pagamentos</a>
   </aside>
 
-  <main>
-    <section class="section" aria-labelledby="section-pagamentos">
-      <h2 id="section-pagamentos">Pagamentos e Transferências</h2>
-      <div class="placeholder">Área para realizar pagamentos e transferências.</div>
-    </section>
-  </main>
+<main>
+  <section class="section" aria-labelledby="section-pagamentos">
+    <h2 id="section-pagamentos">Histórico de Transações</h2>
+    <table style="width:100%; background:rgba(0,45,98,0.2); border-radius:8px; color:#e3eaf2;">
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="transacao : ${historicoTransacoes}">
+          <td style="text-align:center;" th:text="${transacao.tipo_transacao}">Tipo</td>
+          <td style="text-align:center;" th:text="${transacao.valor}">Valor</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</main>
 
   <footer>
     &copy; 2025 Banco Real Brasileiro. Todos os direitos reservados.

@@ -10,10 +10,11 @@ import jakarta.persistence.Table;
 @Table(name = "tb_transacoes")
 public class Transacoes {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String cpf_origem;
+    private String cpfOrigem;
     private String tipo_transacao;
     private double valor;
 
@@ -24,11 +25,11 @@ public class Transacoes {
     public void setId(long id) {
         this.id = id;
     }
-    public String getCpf_origem() {
-        return cpf_origem;
+    public String getCpfOrigem() {
+        return cpfOrigem;
     }
-    public void setCpf_origem(String cpf_origem) {
-        this.cpf_origem = cpf_origem;
+    public void setCpfOrigem(String cpfOrigem) {
+        this.cpfOrigem = cpfOrigem;
     }
     public String getTipo_transacao() {
         return tipo_transacao;
