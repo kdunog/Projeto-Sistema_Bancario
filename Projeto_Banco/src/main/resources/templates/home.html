@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home - Banco Real Brasileiro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0d1a26 0%, #002d62 100%);
+            color: #e3eaf2;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: rgba(0, 45, 98, 0.85);
+            backdrop-filter: saturate(180%) blur(12px);
+            padding: 16px 32px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.5rem;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        main {
+            flex: 1;
+            padding: 32px 24px;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        a.logout-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            color: white;
+            font-weight: 600;
+            padding: 12px 32px;
+            border-radius: 24px;
+            text-decoration: none;
+            transition: transform 0.2s ease;
+        }
+
+        a.logout-link:hover,
+        a.logout-link:focus {
+            outline: none;
+            transform: scale(1.05);
+        }
+
+        a.login-link {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        a.login-link:hover,
+        a.login-link:focus {
+            color: #06b6d4;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        Banco Real Brasileiro <a th:href="@{/logincliente}" class="login-link" aria-label="Login">Login</a>
+    </header>
+    <main>
+        <h1>Bem-vindo</h1>
+        <h1>Abra sua conta no BRB.</h1>
+        <p>Criar sua conta é fácil e rápido. Comece a gerenciar suas finanças com segurança e eficiência.</p>
+        <a th:href="@{/cadastrocliente}" class="logout-link" aria-label="Cadastrar">Cadastrar</a>
+    </main>
+</body>
+
+</html>

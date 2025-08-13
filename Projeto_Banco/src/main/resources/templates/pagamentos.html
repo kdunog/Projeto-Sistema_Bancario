@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Transferência - Banco Real Brasileiro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0d1a26 0%, #002d62 100%);
+      color: #e3eaf2;
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: 64px 1fr 48px;
+      grid-template-columns: 280px 1fr;
+      grid-template-areas:
+        "header header"
+        "sidebar main"
+        "footer footer";
+    }
+
+    header {
+      grid-area: header;
+      position: sticky;
+      top: 0;
+      background: rgba(0, 45, 98, 0.85);
+      backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid rgba(255 255 255 / 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 50;
+    }
+    .brand { font-weight: 700; font-size: 1.5rem; color: #ffffff; letter-spacing: 2px; }
+    .user-info { display: flex; align-items: center; gap: 12px; color: #cbd5e1; font-weight: 600; }
+    .user-avatar { width: 36px; height: 36px; border-radius: 50%; background: #3b82f6; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; color: white; }
+
+    aside.sidebar {
+      grid-area: sidebar;
+      background: rgba(0, 45, 98, 0.95);
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      color: #cbd5e1;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    aside.sidebar a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #cbd5e1;
+      text-decoration: none;
+      padding: 10px 12px;
+      border-radius: 12px;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+    aside.sidebar a:hover, aside.sidebar a:focus {
+      background-color: #0764b0;
+      outline: none;
+      transform: translateX(5px);
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    }
+    aside.sidebar a:active { transform: translateX(5px) scale(0.98); }
+    aside.sidebar a .material-icons { font-size: 24px; }
+
+    main {
+      grid-area: main;
+      padding: 32px 40px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      max-width: 100%;
+    }
+
+    .section {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 24px 32px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      color: #e3eaf2;
+    }
+    .section h2 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 1.75rem;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #06b6d4, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .transfer-form { margin-top: 24px; }
+    .form-group { margin-bottom: 24px; }
+    label { display: block; margin-bottom: 8px; color: #cbd5e1; }
+    input[type="number"], input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.2);
+      color: #000;
+      font-size: 1rem;
+    }
+    input:focus {
+      outline: 2px solid #3b82f6;
+      background: rgba(255,255,255,0.25);
+    }
+
+    .action-button {
+      width: 100%;
+      padding: 16px;
+      background: #06b6d4;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .action-button:hover { background-color: #3b82f6; }
+
+    footer {
+      grid-area: footer;
+      height: 48px;
+      background: rgba(0, 45, 98, 0.85);
+      backdrop-filter: saturate(180%) blur(10px);
+      border-top: 1px solid rgba(255 255 255 / 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      color: #cbd5e1;
+    }
+
+  .toast {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  padding: 16px 24px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 100;
+  min-width: 250px;
+  animation: fadeinout 4s ease forwards;
+}
+
+.toast.success { background-color: #16a34a; }
+.toast.error { background-color: #dc2626; }
+
+@keyframes fadeinout {
+  0% { opacity: 0; transform: translateY(-20px); }
+  10% { opacity: 0.95; transform: translateY(0); }
+  80% { opacity: 0.95; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
+
+    main::-webkit-scrollbar { width: 10px; }
+    main::-webkit-scrollbar-track { background: #121212; }
+    main::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 10px; }
+    main::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">Banco Real Brasileiro</div>
+    <div class="user-info"></div>
+  </header>
+
+  <aside class="sidebar">
+    <a href="/dashboard"><span class="material-icons">home</span> Dashboard</a>
+    <a href="/pagamentos"><span class="material-icons">payment</span> Transferências</a>
+  </aside>
+
+  <main>
+    <div th:if="${successMessage}" class="toast success">
+    <span th:text="${successMessage}"></span>
+</div>
+
+<div th:if="${errorMessage}" class="toast error">
+    <span th:text="${errorMessage}"></span>
+</div>
+
+
+
+    <!-- Depósito -->
+    <section class="section">
+      <h2>Depósito</h2>
+      <form class="transfer-form" th:action="@{/depositocliente}" method="POST">
+        <div class="form-group">
+          <label for="valor">Valor (R$)</label>
+          <input type="number" id="valor" name="saldo" placeholder="0,00" step="0.01" min="0.01" required>
+        </div>
+        <div class="form-group">
+          <label for="cpf">CPF da Conta</label>
+          <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+        </div>
+        <button type="submit" class="action-button">
+          <span class="material-icons">attach_money</span>
+          Confirmar Depósito
+        </button>
+      </form>
+    </section>
+
+    <!-- Saque -->
+    <section class="section">
+      <h2>Saque</h2>
+      <form class="transfer-form" th:action="@{/saquecliente}" method="POST">
+        <div class="form-group">
+          <label for="valor-saque">Valor</label>
+          <input type="number" id="valor-saque" name="saldo" placeholder="0,00" step="0.01" min="0.01" required>
+        </div>
+        <div class="form-group">
+          <label for="cpf-saque">CPF da Conta</label>
+          <input type="text" id="cpf-saque" name="cpf" placeholder="000.000.000-00" required>
+        </div>
+        <button type="submit" class="action-button">
+          <span class="material-icons">payments</span>
+          Confirmar Saque
+        </button>
+      </form>
+    </section>
+
+    <!-- Transferência -->
+    <section class="section">
+      <h2>Transferência entre Contas</h2>
+      <form class="transfer-form" th:action="@{/transferenciaContas}" th:object="${transferenciaDTO}" method="POST">
+        <div class="form-group">
+          <label for="valor-transferencia">Valor (R$)</label>
+          <input type="number" id="valor-transferencia" th:field="*{valor}" placeholder="0,00" step="0.01" min="0.01" required>
+        </div>
+        <div class="form-group">
+          <label for="cpf-origem">CPF de Origem</label>
+          <input type="text" id="cpf-origem" th:field="*{cpfOrigem}" placeholder="000.000.000-00" required>
+        </div>
+        <div class="form-group">
+          <label for="cpf-destino">CPF Destino</label>
+          <input type="text" id="cpf-destino" th:field="*{cpfDestino}" placeholder="000.000.000-00" required>
+        </div>
+        <button type="submit" class="action-button">
+          <span class="material-icons">compare_arrows</span>
+          Confirmar Transferência
+        </button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Banco Real Brasileiro. Todos os direitos reservados.
+  </footer>
+</body>
+</html>

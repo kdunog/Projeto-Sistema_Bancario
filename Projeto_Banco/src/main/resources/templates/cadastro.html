@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cadastro - Banco Real Brasileiro</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<style>
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #0d1a26 0%, #002d62 100%);
+    color: #e3eaf2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  form {
+    background: rgba(30,30,30,0.85);
+    padding: 32px 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+    width: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  h1 {
+    margin: 0 0 20px;
+    font-weight: 700;
+    font-size: 2rem;
+    text-align: center;
+    background: linear-gradient(135deg, #06b6d4, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #bbb;
+  }
+  input {
+    background: #1e1e1e;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 1rem;
+    color: #e3eaf2;
+    outline: none;
+  }
+  input:focus {
+    outline: 2px solid #06b6d4;
+  }
+  button {
+    background: linear-gradient(135deg, #06b6d4, #3b82f6);
+    color: white;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  button:hover,
+  button:focus {
+    outline: none;
+    transform: scale(1.05);
+  }
+  .error-message {
+    color: #e55353;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<form th:action="@{/cadastrocliente}" method="post" novalidate>
+  <h1>Cadastro</h1>
+
+  <label for="nome">Nome completo</label>
+  <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required minlength="3" />
+
+  <label for="email">Email</label>
+  <input type="text" id="email" name="email" placeholder="Email" />
+
+  <label for="cpf">CPF</label>
+  <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" maxlength="14" />
+
+  <label for="senha">Senha</label>
+  <input type="password" id="senha" name="senha" placeholder="Crie uma senha forte" required minlength="6" />
+
+  <button type="submit">Cadastrar</button>
+
+  <div th:if="${error}" class="error-message" th:text="${error}"></div>
+  <div th:if="${successo}" style="color:#60a5fa; font-size:0.9rem; text-align:center;" th:text="${successo}"></div>
+</form>
+</body>
+</html>
