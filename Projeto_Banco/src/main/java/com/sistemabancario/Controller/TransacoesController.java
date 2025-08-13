@@ -7,13 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.sistemabancario.Model.Cliente;
 import com.sistemabancario.Model.TransferenciaDTO;
 import com.sistemabancario.Repository.ClienteRepository;
-
-
-// CODIGO NAO ESTA FUNCIONANDO QUANDO TENTO DEPOSITAR SACAR E TRANSFERIR ELE CAI EM 404 WHITELABEL RESOLVER TALVEZ SEJA METODO GET EM DEPOSITO SAQUE E TRANSFERENCIA
 
 @Controller
 @RequestMapping
@@ -23,38 +20,47 @@ public class TransacoesController {
     private ClienteRepository cRepository;
 
     @GetMapping("/pagamentos")
-    public String deposito() {
+    public String deposito(Model model) {
+        model.addAttribute("transferenciaDTO", new TransferenciaDTO());
         return "pagamentos";
     }
 
-    @PostMapping("/depositocliente")
-    public String depositocliente(Cliente cliente) {
-        Cliente clienteEncontrado = cRepository.findByCpf(cliente.getCpf());
-        if (clienteEncontrado != null) {
-            clienteEncontrado.setSaldo(clienteEncontrado.getSaldo() + cliente.getSaldo()); // Corrigido
+
+@PostMapping("/depositocliente")
+public String depositocliente(Cliente cliente, RedirectAttributes redirectAttrs) {
+    Cliente clienteEncontrado = cRepository.findByCpf(cliente.getCpf());
+    if (clienteEncontrado != null) {
+        clienteEncontrado.setSaldo(clienteEncontrado.getSaldo() + cliente.getSaldo());
+        cRepository.save(clienteEncontrado);
+
+        redirectAttrs.addFlashAttribute("successMessage", "Depósito realizado com sucesso!");
+        return "redirect:/pagamentos";
+    }
+    redirectAttrs.addFlashAttribute("errorMessage", "Erro: Cliente não encontrado.");
+    return "redirect:/dashboard";
+}
+
+@PostMapping("/saquecliente")
+public String saquecliente(Cliente cliente, RedirectAttributes redirectAttrs) {
+    Cliente clienteEncontrado = cRepository.findByCpf(cliente.getCpf());
+    if (clienteEncontrado != null) {
+        if (clienteEncontrado.getSaldo() >= cliente.getSaldo()) {
+            clienteEncontrado.setSaldo(clienteEncontrado.getSaldo() - cliente.getSaldo());
             cRepository.save(clienteEncontrado);
+
+            redirectAttrs.addFlashAttribute("successMessage", "Saque realizado com sucesso!");
             return "redirect:/pagamentos";
+        } else {
+            redirectAttrs.addFlashAttribute("errorMessage", "Saldo insuficiente.");
+            return "redirect:/dashboard";
         }
-        return "redirect:/dashboard";
     }
+    redirectAttrs.addFlashAttribute("errorMessage", "Cliente não encontrado.");
+    return "redirect:/dashboard";
+}
 
-    @PostMapping("/saquecliente")
-    public String saquecliente(Cliente cliente) {
-        Cliente clienteEncontrado = cRepository.findByCpf(cliente.getCpf());
-        if (clienteEncontrado != null) {
-            if (clienteEncontrado.getSaldo() >= cliente.getSaldo()) {
-                clienteEncontrado.setSaldo(clienteEncontrado.getSaldo() - cliente.getSaldo());
-                cRepository.save(clienteEncontrado);
-                return "redirect:/pagamentos";
-            } else {
-                return "redirect:/dashboard";
-            }
-        }
-        return "redirect:/dashboard";
-    }
-
-    @PostMapping("/transferenciaContas")
-public String transferenciaContas(@ModelAttribute TransferenciaDTO dto) {
+@PostMapping("/transferenciaContas")
+public String transferenciaContas(@ModelAttribute TransferenciaDTO dto, RedirectAttributes redirectAttrs) {
     Cliente origem = cRepository.findByCpf(dto.getCpfOrigem());
     Cliente destino = cRepository.findByCpf(dto.getCpfDestino());
 
@@ -66,16 +72,15 @@ public String transferenciaContas(@ModelAttribute TransferenciaDTO dto) {
             cRepository.save(origem);
             cRepository.save(destino);
 
+            redirectAttrs.addFlashAttribute("successMessage", "Transferência realizada com sucesso!");
             return "redirect:/pagamentos";
         } else {
+            redirectAttrs.addFlashAttribute("errorMessage", "Saldo insuficiente na conta de origem.");
             return "redirect:/dashboard";
         }
     }
+    redirectAttrs.addFlashAttribute("errorMessage", "Conta de origem ou destino não encontrada.");
     return "redirect:/dashboard";
 }
-    @PostMapping("/pagamentos") 
-    public String pagamentos(Cliente cliente, Model model) {
-        model.addAttribute("cliente", cliente); // Adicionado para passar o cliente ao modelo
-        return "pagamentos";
-    }
+
 }
