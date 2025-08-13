@@ -36,45 +36,42 @@ public String deposito(Model model, @SessionAttribute(value = "cpf", required = 
     return "pagamentos";
 }
 
-
 @PostMapping("/depositocliente")
-public String depositocliente(Cliente cliente, RedirectAttributes redirectAttrs) {
-    Cliente clienteEncontrado = cRepository.findByCpf(cliente.getCpf());
+public String depositocliente(@SessionAttribute("cpf") String cpf, Cliente cliente, RedirectAttributes redirectAttrs) {
+    Cliente clienteEncontrado = cRepository.findByCpf(cpf); // Usa o CPF da sessão!
     if (clienteEncontrado != null) {
         clienteEncontrado.setSaldo(clienteEncontrado.getSaldo() + cliente.getSaldo());
         cRepository.save(clienteEncontrado);
 
-        // Salva transação
         Transacoes transacao = new Transacoes();
-        transacao.setCpfOrigem(cliente.getCpf());
+        transacao.setCpfOrigem(cpf); // CPF da sessão!
         transacao.setTipo_transacao("Depósito");
         transacao.setValor(cliente.getSaldo());
         transacoesRepository.save(transacao);
 
         redirectAttrs.addFlashAttribute("successMessage", "Depósito realizado com sucesso!");
-        return "redirect:/pagamentos";
+        return "redirect:/dashboard";
     }
     redirectAttrs.addFlashAttribute("errorMessage", "Erro: Cliente não encontrado.");
     return "redirect:/dashboard";
 }
 
 @PostMapping("/saquecliente")
-public String saquecliente(Cliente cliente, RedirectAttributes redirectAttrs) {
-    Cliente clienteEncontrado = cRepository.findByCpf(cliente.getCpf());
+public String saquecliente(@SessionAttribute("cpf") String cpf, Cliente cliente, RedirectAttributes redirectAttrs) {
+    Cliente clienteEncontrado = cRepository.findByCpf(cpf);
     if (clienteEncontrado != null) {
         if (clienteEncontrado.getSaldo() >= cliente.getSaldo()) {
             clienteEncontrado.setSaldo(clienteEncontrado.getSaldo() - cliente.getSaldo());
             cRepository.save(clienteEncontrado);
 
-            // Salva transação
             Transacoes transacao = new Transacoes();
-            transacao.setCpfOrigem(cliente.getCpf());
+            transacao.setCpfOrigem(cpf);
             transacao.setTipo_transacao("Saque");
             transacao.setValor(cliente.getSaldo());
             transacoesRepository.save(transacao);
 
             redirectAttrs.addFlashAttribute("successMessage", "Saque realizado com sucesso!");
-            return "redirect:/pagamentos";
+            return "redirect:/dashboard";
         } else {
             redirectAttrs.addFlashAttribute("errorMessage", "Saldo insuficiente.");
             return "redirect:/dashboard";
@@ -85,8 +82,8 @@ public String saquecliente(Cliente cliente, RedirectAttributes redirectAttrs) {
 }
 
 @PostMapping("/transferenciaContas")
-public String transferenciaContas(@ModelAttribute TransferenciaDTO dto, RedirectAttributes redirectAttrs) {
-    Cliente origem = cRepository.findByCpf(dto.getCpfOrigem());
+public String transferenciaContas(@SessionAttribute("cpf") String cpf, @ModelAttribute TransferenciaDTO dto, RedirectAttributes redirectAttrs) {
+    Cliente origem = cRepository.findByCpf(cpf); // CPF da sessão!
     Cliente destino = cRepository.findByCpf(dto.getCpfDestino());
 
     if (origem != null && destino != null) {
@@ -97,15 +94,14 @@ public String transferenciaContas(@ModelAttribute TransferenciaDTO dto, Redirect
             cRepository.save(origem);
             cRepository.save(destino);
 
-            // Salva transação
             Transacoes transacao = new Transacoes();
-            transacao.setCpfOrigem(dto.getCpfOrigem());
+            transacao.setCpfOrigem(cpf); // CPF da sessão!
             transacao.setTipo_transacao("Transferência");
             transacao.setValor(dto.getValor());
             transacoesRepository.save(transacao);
 
             redirectAttrs.addFlashAttribute("successMessage", "Transferência realizada com sucesso!");
-            return "redirect:/pagamentos";
+            return "redirect:/dashboard";
         } else {
             redirectAttrs.addFlashAttribute("errorMessage", "Saldo insuficiente na conta de origem.");
             return "redirect:/dashboard";
